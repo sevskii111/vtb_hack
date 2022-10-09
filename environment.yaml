@@ -1,0 +1,16 @@
+name: vtb_hack
+channels:
+  - conda-forge
+dependencies:
+  - python=3.9
+  - nltk
+  - numpy
+  - scikit-learn
+  - fastapi
+  - ca-certificates
+  - openssl
+  - uvicorn
+  - pandas
+  - umap-learn
+  - dill
+  - ipykernel
