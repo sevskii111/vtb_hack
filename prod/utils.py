@@ -47,7 +47,7 @@ def clean_news(df):
     return clean_doc
 
 def vecotorize(news):
-    with open('vectorizer', 'rb') as vectorizer_file:
+    with open('vectorizer.pth', 'rb') as vectorizer_file:
         vectorizer = pickle.load(vectorizer_file)
     return vectorizer.transform(news)
 

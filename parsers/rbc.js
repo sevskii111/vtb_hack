@@ -24,6 +24,9 @@ function fetchWithTimeout(url, delay, onTimeout) {
 }
 
 async function parse_news(link) {
+  if (link.indexOf('video_id') != -1) {
+    throw "video";
+  }
   const full_link = link;
   const page_html = await fetchWithTimeout(full_link, 3000, () => {}).then((res) => res.text());
 
