@@ -6,10 +6,26 @@ const { PromisePool } = require("@supercharge/promise-pool");
 
 const { JSDOM } = jsdom;
 
+function fetchWithTimeout(url, delay, onTimeout) {
+  const timer = new Promise((resolve) => {
+    setTimeout(resolve, delay, {
+      timeout: true,
+    });
+  });
+  return Promise.race([
+    fetch(url),
+    timer
+  ]).then(response => {
+    if (response.timeout) {
+      onTimeout();
+    }
+    return response;
+  });
+}
 
 async function parse_news(link) {
   const full_link = link;
-  const page_html = await fetch(full_link).then((res) => res.text());
+  const page_html = await fetchWithTimeout(full_link, 3000, () => {}).then((res) => res.text());
 
   const document = new JSDOM(page_html).window.document;
 
@@ -51,7 +67,7 @@ async function get_news_for_date(date) {
   const { results: news, errors } = await PromisePool.for(news_links)
     .withConcurrency(1)
     .process(async (l, index) => {
-      console.log(`${index + 1}/${news_links.length}`);
+      console.log(`${index + 1}/${news_links.length} ${l}`);
       return await parse_news(l);
     });
   
