@@ -63,13 +63,13 @@ def get_clusters(start_date, end_date):
     c_news = clean_news(news_df)
     v_news = vecotorize(c_news)
 
-    with open('vectorizer', 'rb') as vectorizer_file:
+    with open('vectorizer.pth', 'rb') as vectorizer_file:
         vectorizer = pickle.load(vectorizer_file)
 
-    with open('svd', 'rb') as svd_file:
+    with open('svd.pth', 'rb') as svd_file:
         svd = pickle.load(svd_file)
 
-    with open('u', 'rb') as u_file:
+    with open('u.pth', 'rb') as u_file:
         u = pickle.load(u_file)
 
     embedding = u.transform(svd.transform(v_news))
